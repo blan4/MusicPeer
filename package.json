@@ -1,0 +1,25 @@
+{
+  "name": "misic_peer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.2.1",
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jade": "^1.11.0",
+    "morgan": "^1.6.1",
+    "passport": "^0.3.2",
+    "passport-vkontakte": "^0.4.0",
+    "request": "^2.69.0",
+    "winston": "^2.1.1"
+  }
+}

@@ -1,0 +1,12 @@
+html
+  head
+    title MusicPeer
+  body
+    h1 MusicPeer
+    p It's a super-duper application for listening music in a big open space.
+    if user 
+      form(method='GET', action='/audio')
+        input(name='q', type='text')
+        input(type='submit', value='Find')
+    else
+      a(href='/auth/vk') login
