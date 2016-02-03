@@ -1,5 +1,6 @@
 'use strict';
 
+const conf = require('./configs');
 const PromiseA = require('bluebird');
 const request = PromiseA.promisifyAll(require('request'));
 const express = require('express');
@@ -19,7 +20,7 @@ function findAudio(accessToken, query) {
 }
 
 const app = express();
-app.set('port', (process.env.PORT || 5000));
+app.set('port', conf.port);
 app.set('view engine', 'jade');
 app.set('views', './views');
 app.use(morgan('combined'));
@@ -27,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: 'session secret is here',
+  secret: conf.sessionSecret,
   resave: false,
   saveUninitialized: true,
   cookie: {}
@@ -38,9 +39,9 @@ app.use(passport.session());
 const users = {};
 
 passport.use(new VkStrategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: `${process.env.HOST || 'http://localhost:5000'}/auth/vk/callback`,
+  clientID: conf.clientID,
+  clientSecret: conf.clientSecret,
+  callbackURL: `${conf.host}/auth/vk/callback`,
   version: '5.44'
 }, (accessToken, refreshToken, profile, done) => {
   const user = {
