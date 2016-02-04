@@ -192,7 +192,7 @@ app.get('/room/:id/audio', (req, res) => {
   }
   const user = req.user;
   if (!user) {
-    res.redirect(`/room/${id}`);
+    res.redirect(`/`);
     return;
   }
   const q = req.query.q;
