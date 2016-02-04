@@ -1,0 +1,14 @@
+extends layout
+block append content
+  h1 #{room.id}
+  p Select audio for room
+  .audios
+    for audio in audios
+      .audio
+        p #{audio.artist} - #{audio.title}
+        form(action='/room/#{room.id}/audio', method='POST')
+          input(type='hidden', value='#{audio.artist}', name='artist')
+          input(type='hidden', value='#{audio.title}', name='title')
+          input(type='hidden', value='#{audio.url}', name='url')
+          input(type='submit', value='Add')
+    

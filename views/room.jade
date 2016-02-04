@@ -1,0 +1,9 @@
+extends layout
+block append content
+  h1= room.id
+  form(method='GET', action='/room/#{room.id}/audio')
+    input(type='text', name='q')
+    input(type='submit', value='Search audio')
+    
+  p Current track #{room.tracks.current}
+  p Total tracks added #{room.tracks.list.length}
