@@ -2,22 +2,15 @@
   'use strict';
   $(document).ready(function() {
     var sound = null;
-    var playing = false;
 
     function play(url, roomID) {
-      if (sound) sound.stop();
-      playing = false;
-      sound = new Howl({
-        urls: [url],
-        loop: false,
-        autoplay: false,
-        onend: function() {
-          console.log('Finished', url);
-          playNext(roomID);
-        }
-      });
+      if (!sound) sound = new Audio();
+      sound.currentTime = 0;
+      sound.src = url;
+      sound.onended = function() {
+        playNext(roomID);
+      }
       sound.play();
-      playing = true;
     }
 
     function playNext(roomID) {
@@ -35,12 +28,10 @@
       var $this = $(this);
       var roomID = $this.data('room');
       if (sound) {
-        if (playing) {
-          playing = false;
-          sound.pause();
-        } else {
-          playing = true;
+        if (sound.paused) {
           sound.play();
+        } else {
+          sound.pause();
         }
         return;
       }
