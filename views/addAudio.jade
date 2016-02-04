@@ -7,8 +7,6 @@ block append content
       .audio
         p #{audio.artist} - #{audio.title}
         form(action='/room/#{room.id}/audio', method='POST')
-          input(type='hidden', value='#{audio.artist}', name='artist')
-          input(type='hidden', value='#{audio.title}', name='title')
-          input(type='hidden', value='#{audio.url}', name='url')
+          input(type='hidden', value='#{audio.id}', name='id')
           input(type='submit', value='Add')
     
