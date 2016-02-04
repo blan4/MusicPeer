@@ -37,6 +37,7 @@ const app = express();
 app.set('port', conf.port);
 app.set('view engine', 'jade');
 app.set('views', './views');
+app.use('/static', express.static('public'));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -124,7 +125,11 @@ app.get('/rooms', (req, res) => {
 app.get('/room/:id', (req, res) => {
   const id = req.params.id;
   storage.findRoom(id).then(room => {
-    res.render('room', {room: room});
+    let owner = false;
+    if (req.user && req.user.id === room.ownerID) {
+      owner = true;
+    }
+    res.render('room', {room: room, owner: owner});
   }).catch(err => {
     logger.error(err);
     res.status(404).send(err.toString());
@@ -165,7 +170,7 @@ app.post('/room/:id/audio', (req, res) => {
   const audio = req.body;
   if (!audio || !audio.url || !audio.title || !audio.artist) res.status(400).send(`Form error ${audio}`);
   storage.addTrack(id, audio).then(() => {
-    res.send('Success!!');
+    res.redirect(`/room/${id}`);
   }).catch(err => {
     logger.error(err);
     res.status(400).send(err.toString());

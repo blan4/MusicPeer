@@ -7,3 +7,8 @@ block append content
     
   p Current track #{room.tracks.current}
   p Total tracks added #{room.tracks.list.length}
+
+  if owner
+    a#play(data-room='#{room.id}') Play/Pause
+    br
+    a#next(data-room='#{room.id}') Next
