@@ -32,11 +32,18 @@
     }
 
     $('#play').on('click', function() {
-      console.log(this);
       var $this = $(this);
       var roomID = $this.data('room');
-      if (sound) return;
-      if (playing) sound.pause();
+      if (sound) {
+        if (playing) {
+          playing = false;
+          sound.pause();
+        } else {
+          playing = true;
+          sound.play();
+        }
+        return;
+      }
       $.ajax({
         method: 'GET',
         url: '/room/'+roomID+'/current',
@@ -48,7 +55,6 @@
     });
 
     $('#next').on('click', function() {
-      console.log(this);
       var $this = $(this);
       var roomID = $this.data('room');
       playNext(roomID);

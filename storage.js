@@ -55,7 +55,11 @@ Storage.nextTrack = PromiseA.method(function(user, roomID) {
   if (!user) throw new Error("User can't be null");
   return Storage.findRoom(roomID).then(room => {
     if (room.ownerID != user.id) throw new Error(`User ${user.id} can't control Room ${room.id}`);
-    room.tracks.current++;
+    if (room.tracks.list.length <= room.tracks.current + 1) {
+      room.tracks.current = room.tracks.list.length
+    } else {
+      room.tracks.current++;
+    }
     const track = room.tracks.list[room.tracks.current];
     if (track) return track;
     throw new Error(`Nothing to play next in room ${roomID}`);

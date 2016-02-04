@@ -19,7 +19,7 @@ function findAudio(accessToken, query) {
   logger.info(`Find audio: ${url}`);
   return request.getAsync(url).then(data => {
     const body = JSON.parse(data.body);
-    logger.info(body);
+    logger.info(`Search audio: '${query}'`);
     return body.response.map(audio => {
       if (typeof(audio) === 'object' && 'url' in audio) {
         return {
@@ -83,21 +83,6 @@ passport.deserializeUser(function(obj, done) {
 
 app.get('/', (req, res) => {
   res.render('index', {user: req.user});
-});
-
-app.get('/audio', (req, res) => {
-  const user = req.user;
-  const q = req.query.q || 'Нейромонах Феофан';
-  if (user) {
-    findAudio(user.accessToken, q).then(audios => {
-      res.send(audios);
-    }).catch(err => {
-      logger.error(err);
-      res.status(400).send(err);
-    });
-  } else {
-    res.redirect('/');
-  }
 });
 
 app.get('/auth/vk', passport.authenticate('vkontakte', {scope: ['audio', 'offline']}), (req, res) => {});
@@ -179,10 +164,20 @@ app.post('/room/:id/audio', (req, res) => {
 
 app.get('/room/:id/audio', (req, res) => {
   const id = req.params.id;
-  if (!id) res.redirect('/');
+  if (!id) {
+    res.redirect('/');
+    return;
+  }
   const user = req.user;
-  if (!user) res.redirect(`/room/${id}`);
-  const q = req.query.q || 'Нейромонах Феофан';
+  if (!user) {
+    res.redirect(`/room/${id}`);
+    return;
+  }
+  const q = req.query.q;
+  if (!q) {
+    res.redirect(`/room/${id}`);
+    return;
+  }
   storage.findRoom(id).then(room => {
     return findAudio(user.accessToken, q).then(audios => {
       res.render('addAudio', {room: room, audios: audios});

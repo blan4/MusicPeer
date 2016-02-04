@@ -9,6 +9,6 @@ block append content
   p Total tracks added #{room.tracks.list.length}
 
   if owner
-    a#play(data-room='#{room.id}') Play/Pause
+    a#play(href='#', data-room='#{room.id}') Play/Pause
     br
-    a#next(data-room='#{room.id}') Next
+    a#next(href='#', data-room='#{room.id}') Next
