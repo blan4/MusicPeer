@@ -19,8 +19,8 @@ module.exports = (logger) => {
             url: audio.url,
             artist: audio.artist,
             title: audio.title,
-            duration: audio.duration
-          }
+            duration: audio.duration,
+          };
         }
       }).filter(el => !!el);
     });
@@ -38,8 +38,8 @@ module.exports = (logger) => {
         url: audio.url,
         artist: audio.artist,
         title: audio.title,
-        duration: audio.duration
-      }
+        duration: audio.duration,
+      };
     });
   };
 

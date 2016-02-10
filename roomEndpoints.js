@@ -19,7 +19,7 @@ module.exports = (storage, logger, vk) => {
       if (req.user && req.user.id === room.ownerID) {
         owner = true;
       }
-      res.render('room', {room: room, owner: owner});
+      res.render('room', { room: room, owner: owner });
     }).catch(err => {
       logger.error(err);
       res.status(404).send(err.toString());
@@ -87,7 +87,7 @@ module.exports = (storage, logger, vk) => {
     }
     storage.findRoom(id).then(room => {
       return vk.findAudio(user.accessToken, q).then(audios => {
-        res.render('addAudio', {room: room, audios: audios});
+        res.render('addAudio', { room: room, audios: audios });
       });
     }).catch(err => {
       logger.error(err);

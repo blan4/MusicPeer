@@ -3,5 +3,5 @@ module.exports = {
   clientID: '111222333',
   clientSecret: '28ud82d8u28ud28d',
   host: 'http://localhost:9000',
-  sessionSecret: 'secret'
+  sessionSecret: 'secret',
 };

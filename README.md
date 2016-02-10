@@ -10,7 +10,7 @@ Install dependencies
 
 Create config file from a given template
 
-    cp configs_dev.js.example configs_dev.js
+    cp configs_dev.example.js configs_dev.js
 
 Run
 

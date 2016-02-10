@@ -22,5 +22,9 @@
     "passport-vkontakte": "^0.4.0",
     "request": "^2.69.0",
     "winston": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^5.0.0"
   }
 }
