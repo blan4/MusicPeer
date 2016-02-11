@@ -16,7 +16,7 @@ const roomEndpoints = require('./roomEndpoints')(storage, logger, vk);
 const app = express();
 app.set('port', conf.port);
 app.set('view engine', 'jade');
-app.set('views', './src/views');
+app.set('views', './server/views');
 app.use('/static', express.static('client'));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
