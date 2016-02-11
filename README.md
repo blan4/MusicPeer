@@ -2,6 +2,8 @@
 
 It's a super-duper application for listening music in a big open space.
 
+[![Build Status](https://travis-ci.org/blan4/MusicPeer.svg?branch=master)](https://travis-ci.org/blan4/MusicPeer)
+
 # Installation
 
 Install dependencies
@@ -10,8 +12,8 @@ Install dependencies
 
 Create config file from a given template
 
-    cp configs_dev.example.js configs_dev.js
+    cp server/configs_dev.example.js server/configs_dev.js
 
 Run
 
-    node index.js
+    npm start
