@@ -19,7 +19,7 @@ module.exports = (storage, logger, vk) => {
       if (req.user && req.user.id === room.ownerID) {
         owner = true;
       }
-      res.render('room', { room: room, owner: owner });
+      res.render('room', { room, owner });
     }).catch(err => {
       logger.error(err);
       res.status(404).send(err.toString());
@@ -33,9 +33,9 @@ module.exports = (storage, logger, vk) => {
     if (!user) res.redirect(`/room/${id}`);
     const audio = req.body;
     if (!audio || !audio.id) res.status(400).send(`Form error ${audio}`);
-    storage.addTrack(id, audio).then(() => {
-      res.redirect(`/room/${id}`);
-    }).catch(err => {
+    storage.addTrack(id, audio)
+    .then(() => res.redirect(`/room/${id}`))
+    .catch(err => {
       logger.error(err);
       res.status(400).send(err.toString());
     });
@@ -45,9 +45,9 @@ module.exports = (storage, logger, vk) => {
     const user = req.user;
     const roomID = req.params.id;
     if (!user) res.redirect(`/room/${roomID}`);
-    storage.nextTrack(user, roomID).then(audio => {
-      return vk.findAudioById(user.accessToken, audio.id);
-    }).then(track => {
+    storage.nextTrack(user, roomID)
+    .then(audio => vk.findAudioById(user.accessToken, audio.id))
+    .then(track => {
       res.send(track);
     }).catch(err => {
       logger.error(err);
@@ -59,9 +59,9 @@ module.exports = (storage, logger, vk) => {
     const user = req.user;
     const roomID = req.params.id;
     if (!user) res.redirect(`/room/${roomID}`);
-    storage.currentTrack(user, roomID).then(audio => {
-      return vk.findAudioById(user.accessToken, audio.id);
-    }).then(track => {
+    storage.currentTrack(user, roomID)
+    .then(audio => vk.findAudioById(user.accessToken, audio.id))
+    .then(track => {
       res.send(track);
     }).catch(err => {
       logger.error(err);
@@ -85,11 +85,10 @@ module.exports = (storage, logger, vk) => {
       res.redirect(`/room/${id}`);
       return;
     }
-    storage.findRoom(id).then(room => {
-      return vk.findAudio(user.accessToken, q).then(audios => {
-        res.render('addAudio', { room: room, audios: audios });
-      });
-    }).catch(err => {
+    storage.findRoom(id).then(room =>
+      vk.findAudio(user.accessToken, q)
+      .then(audios => res.render('addAudio', { room, audios }))
+    ).catch(err => {
       logger.error(err);
       res.status(400).send(err.toString());
     });

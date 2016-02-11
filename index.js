@@ -44,11 +44,9 @@ passport.use(new VkStrategy({
     name: profile.displayName,
     photoURL: profile.photos[0].value,
     profileURL: profile.profileUrl,
-    accessToken: accessToken,
+    accessToken,
   };
-  return storage.createUser(user).then(u => {
-    return done(null, u);
-  });
+  return storage.createUser(user).then(u => done(null, u));
 }));
 
 passport.serializeUser((user, done) => {
@@ -63,11 +61,12 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 
-app.get('/auth/vk', passport.authenticate('vkontakte', { scope: ['audio', 'offline'] }), (req, res) => {});
+app.get('/auth/vk', passport.authenticate('vkontakte', { scope: ['audio', 'offline'] }));
 
-app.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }), (req, res) => {
-  res.redirect('/');
-});
+app.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }),
+  (req, res) => {
+    res.redirect('/');
+  });
 
 // POST: /room - create new room with random id
 app.post('/room', roomEndpoints.createRoom);

@@ -3,11 +3,17 @@
 const PromiseA = require('bluebird');
 const request = PromiseA.promisifyAll(require('request'));
 
+const vkHost = 'https://api.vk.com';
+const audioSearch = '/method/audio.search';
+const audioByID = '/method/audio.getById';
+
 module.exports = (logger) => {
   const VkApi = {};
 
   VkApi.findAudio = (accessToken, query) => {
-    let url = encodeURI(`https://api.vk.com/method/audio.search?auto_complete=1&sort=2&q=${query}&access_token=${accessToken}`);
+    const uri = `${vkHost}${audioSearch}` +
+      `?auto_complete=1&sort=2&q=${query}&access_token=${accessToken}`;
+    const url = encodeURI(uri);
     logger.info(`Find audio: ${url}`);
     return request.getAsync(url).then(data => {
       const body = JSON.parse(data.body);
@@ -27,7 +33,7 @@ module.exports = (logger) => {
   };
 
   VkApi.findAudioById = (accessToken, id) => {
-    let url = encodeURI(`https://api.vk.com/method/audio.getById?audios=${id}&access_token=${accessToken}`);
+    const url = encodeURI(`${vkHost}${audioByID}?audios=${id}&access_token=${accessToken}`);
     logger.info(`Find audio: ${url}`);
     return request.getAsync(url).then(data => {
       logger.info(`Search audio by id: '${id}'`);

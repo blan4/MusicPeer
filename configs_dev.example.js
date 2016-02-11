@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   port: 9000,
   clientID: '111222333',
