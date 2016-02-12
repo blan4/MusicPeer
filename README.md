@@ -17,3 +17,7 @@ Create config file from a given template
 Run
 
     npm start
+
+# Run with docker
+
+    docker-compose up

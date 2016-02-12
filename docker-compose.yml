@@ -1,0 +1,9 @@
+web:
+  build: .
+  volumes:
+    - ./server:/app/server
+    - ./client:/app/client
+  command: npm start
+  ports:
+    - "9000:9000"
+  restart: always
