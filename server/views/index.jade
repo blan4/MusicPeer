@@ -3,6 +3,8 @@ block append content
   h1 MusicPeer
   p It's a super-duper application for listening music in a big open space.
   if user 
+    p
+      a(href='/auth/logout') logout
     form(method='POST', action='/room')
       input(type='submit', value='Create room')
     p Or find room!!

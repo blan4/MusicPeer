@@ -31,16 +31,30 @@ module.exports = (logger) => {
 
   const Storage = {};
 
-  Storage.createUser = PromiseA.method(userData => {
-    const user = new User(userData);
-    return user.save().then(u => {
-      logger.info(`New user: ${JSON.stringify(u)}`);
-      return u;
-    }).catch(err => {
-      logger.error(`Can't create user ${JSON.stringify(user)}: ${JSON.stringify(err)}`);
-      throw err;
-    });
-  });
+  Storage.createUser = PromiseA.method(userData =>
+    User.findOne({ remoteID: userData.remoteID, provider: userData.provider })
+    .then(oldUser => {
+      if (oldUser) {
+        oldUser.accessToken = userData.accessToken;
+        return oldUser.save().then(u => {
+          logger.info(`Old user updated: ${JSON.stringify(u)}`);
+          return u;
+        }).catch(err => {
+          logger.error(`Can't update user ${JSON.stringify(oldUser)}: ${JSON.stringify(err)}`);
+          throw err;
+        });
+      }
+
+      const user = new User(userData);
+      return user.save().then(u => {
+        logger.info(`New user: ${JSON.stringify(u)}`);
+        return u;
+      }).catch(err => {
+        logger.error(`Can't create user ${JSON.stringify(user)}: ${JSON.stringify(err)}`);
+        throw err;
+      });
+    })
+  );
 
   Storage.createRoom = PromiseA.method(user => {
     if (!user || !user._id) throw new Error("User can't be null");

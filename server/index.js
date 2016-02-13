@@ -47,8 +47,11 @@ module.exports = (logger) => {
       photoURL: profile.photos[0].value,
       profileURL: profile.profileUrl,
       accessToken,
+      refreshToken,
     };
-    return storage.createUser(user).then(u => done(null, u));
+    return storage.createUser(user)
+      .then(u => done(null, u))
+      .catch(err => done(err));
   }));
 
   passport.serializeUser((user, done) => {
@@ -63,12 +66,15 @@ module.exports = (logger) => {
     res.render('index', { user: req.user });
   });
 
+  app.get('/auth/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
   app.get('/auth/vk', passport.authenticate('vkontakte', { scope: ['audio', 'offline'] }));
 
-  app.get('/auth/vk/callback', passport.authenticate('vkontakte', { failureRedirect: '/auth' }),
-    (req, res) => {
-      res.redirect('/');
-    });
+  app.get('/auth/vk/callback',
+    passport.authenticate('vkontakte', { successRedirect: '/', failureRedirect: '/' }));
 
   // POST: /room - create new room with random id
   app.post('/room', roomEndpoints.createRoom);
