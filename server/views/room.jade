@@ -1,12 +1,12 @@
 extends layout
 block append content
-  h1= room.id
-  form(method='GET', action='/room/#{room.id}/audio')
+  h1= room._id
+  form(method='GET', action='/room/#{room._id}/audio')
     input(type='text', name='q')
     input(type='submit', value='Search audio')
     
-  p Current track #{room.tracks.current}
-  p Total tracks added #{room.tracks.list.length}
+  p Current track #{room.currentTrack + 1}
+  p Total tracks added #{room.tracks.length}
 
   if owner
     a#play(href='#', data-room='#{room.id}') Play/Pause

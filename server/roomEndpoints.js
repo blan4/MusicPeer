@@ -15,8 +15,10 @@ module.exports = (storage, logger, vk) => {
   handlers.showRoom = (req, res) => {
     const id = req.params.id;
     storage.findRoom(id).then(room => {
+      logger.info(`Find room: ${JSON.stringify(room)}`);
       let owner = false;
-      if (req.user && req.user.id === room.ownerID) {
+      if (req.user) logger.info(`userID=${req.user._id}, ownerID=${room._ownerID}`);
+      if (req.user && req.user._id === room._ownerID.toString()) {
         owner = true;
       }
       res.render('room', { room, owner });

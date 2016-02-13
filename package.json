@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "test": "eslint server",
-    "start": "node server/index.js",
+    "start": "bin/www",
     "lint": "eslint server"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "jade": "^1.11.0",
+    "mongoose": "^4.4.3",
     "morgan": "^1.6.1",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",

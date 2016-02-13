@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === 'production') {
     clientSecret: process.env.CLIENT_SECRET,
     host: process.env.HOST,
     sessionSecret: process.env.SESSION_SECRET,
+    mongoURI: process.env.MONGOLAB_URI,
   };
 } else {
   module.exports = require('./configs_dev');

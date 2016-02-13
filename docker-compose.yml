@@ -3,7 +3,12 @@ web:
   volumes:
     - ./server:/app/server
     - ./client:/app/client
-  command: npm start
+    - ./bin:/app/bin
+  command: bin/www
   ports:
     - "9000:9000"
   restart: always
+  links:
+    - db
+db:
+  image: mongo

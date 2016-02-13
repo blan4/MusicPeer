@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+const logger = require('winston');
+const app = require('../server')(logger);
+
+app.start();
